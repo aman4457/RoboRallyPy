@@ -1,0 +1,59 @@
+Generate Board
+randomize programming deck
+randomize damage cards
+randomize upgrade cards
+deal three upgrade cards to each player
+reset checkpoint traker
+reset energy traker
+place robots youngest then to the left
+place archive tokens
+give priority token
+
+
+
+Upgrade Phase
+All players can aquire install or uninstall new upgrades 
+Draw new upgrade
+Install an upgrade
+Uninstall as many upgrades as you want
+Check For ready
+
+Programming phase
+All players at same time
+Draw until you have 9 cards from programming deck if deck runs out shuffle discard pile
+Place a card into each register
+
+Activation Phase
+for int i=0, i<5, i++ {
+All players flip programming card i
+Starting at the player with the priority token moving clockwise carry out the card
+Activate Blue conveyors
+Activate Green Conveyors
+Activate push panels
+Activate Gears 
+Activate Board lasers
+Fire Robot lasers unless another weapon replaces it if order matters it will happen in prio order 
+update damage cards()
+Check for battery spaces and update energy
+Update Checkpoints
+}
+pass token to the left
+Discard Face up damage and Programming cards
+Return to Upgrade phase
+
+//ProgDecksDone
+in each player Prog Deck
+4x move1 space 
+3x move2
+1x move3
+
+4x rotate right
+4x rotate left
+
+1x uturn
+1x move back
+1x power up
+
+1x again
+
+
