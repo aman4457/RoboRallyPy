@@ -91,10 +91,13 @@ def generateUpgradeDeck():
             UpgradeCard("Temporary", "Rewire", "1"),
             UpgradeCard("Temporary", "Switch", "2"),
             UpgradeCard("Temporary", "Zoop", "1")]
-            random.shuffle(UpgradeCardDeck)
-            return UpgradeCardDeck
+        random.shuffle(UpgradeCardDeck)
+        return UpgradeCardDeck
 
 hands = generateProgDecks()
+upgradeDeck = generateUpgradeDeck()
+for i in range(len(upgradeDeck )):
+    print(upgradeDeck[i].rule)
 for i in range(NumOfRobots):
     for j in range(len(ProgDeckTemplate)):
         print(hands[i][j].rule)
