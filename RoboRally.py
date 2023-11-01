@@ -11,8 +11,16 @@ class UpgradeCard:
         self.rule = rule
         self.cost = cost
 
-hands = []
+class DamageCard:
+    def __init__(self, type, rule):
+        self.type = type
+        self.rule = rule
+NumOfCheckpoints = 3
+ProgDecks = []
 NumOfRobots = 5
+ProgHands = []
+UpgrHands = []
+Checkpoint = []
 ProgDeckTemplate = [ProgCard("Program", "move1"), 
             ProgCard("Program", "move1"), 
             ProgCard("Program", "move1"), 
@@ -48,7 +56,54 @@ def generateProgDecks():
     return hands
 
 def generateDamageDeck():
-    True
+    DamageDeck = [DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("SPAM",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire",""),
+                  DamageCard("Haywire","")]
+    random.shuffle(DamageDeck)
+    return DamageDeck
+
+def ResetCheckpointTracker():
+    for i in range(NumOfRobots):
+        Checkpoint.append(0)
+    #print(Checkpoint)
+    return
 
 def generateUpgradeDeck():
         UpgradeCardDeck = [UpgradeCard("Permanent", "Brakes", "2"),
@@ -94,13 +149,33 @@ def generateUpgradeDeck():
         random.shuffle(UpgradeCardDeck)
         return UpgradeCardDeck
 
-hands = generateProgDecks()
+def DealUpgrCards(RoboNum):
+    TMP = []
+    TMP.append(upgradeDeck.pop(0))
+    TMP.append(upgradeDeck.pop(0))
+    TMP.append(upgradeDeck.pop(0))
+    #print(TMP[0].rule, TMP[1].rule, TMP[2].rule)
+    return TMP
+    
+
+ProgDecks = generateProgDecks()
+DamageDeck = generateDamageDeck()
 upgradeDeck = generateUpgradeDeck()
-for i in range(len(upgradeDeck )):
-    print(upgradeDeck[i].rule)
 for i in range(NumOfRobots):
-    for j in range(len(ProgDeckTemplate)):
-        print(hands[i][j].rule)
+    UpgrHands.append(DealUpgrCards(i))
+ResetCheckpointTracker()
+
+
+
+
+#for i in range(len(upgradeDeck )):
+ #   print(upgradeDeck[i].rule)
+
+#for i in range(len(DamageDeck)):
+#    print(DamageDeck[i].type)
+
+#for i in range(NumOfRobots):
+    #print(UpgrHands[i][0].rule, UpgrHands[i][1].rule, UpgrHands[i][2].rule)
 
 #for i in range(len(ProgDeckTemplate)):
    # print(ProgDeckTemplate[i].type, ProgDeckTemplate[i].rule)
