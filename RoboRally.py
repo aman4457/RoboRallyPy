@@ -21,6 +21,8 @@ NumOfRobots = 5
 ProgHands = []
 UpgrHands = []
 Checkpoint = []
+energy = []
+PrioToken = 0
 ProgDeckTemplate = [ProgCard("Program", "move1"), 
             ProgCard("Program", "move1"), 
             ProgCard("Program", "move1"), 
@@ -105,6 +107,17 @@ def ResetCheckpointTracker():
     #print(Checkpoint)
     return
 
+def ResetEnergyTracker():
+    for i in range(NumOfRobots):
+        energy.append(3)
+    #print(energy)
+    return
+
+def randomizePrioToken():
+    PrioToken = random.randint(0, NumOfRobots)
+    #print(PrioToken)
+    return
+
 def generateUpgradeDeck():
         UpgradeCardDeck = [UpgradeCard("Permanent", "Brakes", "2"),
             UpgradeCard("Permanent", "ChaosTheory", "2"),
@@ -149,7 +162,7 @@ def generateUpgradeDeck():
         random.shuffle(UpgradeCardDeck)
         return UpgradeCardDeck
 
-def DealUpgrCards(RoboNum):
+def DealUpgrCards(RoboNum, upgradeDeck):
     TMP = []
     TMP.append(upgradeDeck.pop(0))
     TMP.append(upgradeDeck.pop(0))
@@ -157,15 +170,20 @@ def DealUpgrCards(RoboNum):
     #print(TMP[0].rule, TMP[1].rule, TMP[2].rule)
     return TMP
     
+def PlaceRobotsAndArchiveTokens():
+    True
+def initalize():
+    ProgDecks = generateProgDecks()
+    DamageDeck = generateDamageDeck()
+    upgradeDeck = generateUpgradeDeck()
+    for i in range(NumOfRobots):
+        UpgrHands.append(DealUpgrCards(i, upgradeDeck))
+    ResetCheckpointTracker()
+    ResetEnergyTracker()
+    randomizePrioToken()
+    PlaceRobotsAndArchiveTokens()
 
-ProgDecks = generateProgDecks()
-DamageDeck = generateDamageDeck()
-upgradeDeck = generateUpgradeDeck()
-for i in range(NumOfRobots):
-    UpgrHands.append(DealUpgrCards(i))
-ResetCheckpointTracker()
-
-
+initalize()
 
 
 #for i in range(len(upgradeDeck )):
