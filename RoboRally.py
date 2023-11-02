@@ -438,9 +438,9 @@ def initalize():
         UpgrHands.append(DealUpgrCards(i, upgradeDeck))
     ResetCheckpointTracker()
     ResetEnergyTracker()
-    randomizePrioToken()
     generatePlacementOrder()
     PlaceRobotsAndArchiveTokens()
+    randomizePrioToken()
 initalize()
 
 
