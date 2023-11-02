@@ -26,6 +26,11 @@ class MapTile:
         self.side1 = side1
         self.side2 = side2
         self.side3 = side3
+class RobotInfo:
+    def __init__(self, position, ArchiveTokenPos):
+        self.position = position
+        self.ArchiveTokenPos = ArchiveTokenPos
+
 map = []
 NumOfCheckpoints = 3
 ProgDecks = []
@@ -258,12 +263,12 @@ def GenerateMilkRunBoard():
     X12.append(MapTile("Normal","none","","","Edge",""))
     X12.append(MapTile("Blue","none","out","","Edge",""))
     X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Normal","none","","","Edge",""))
+    X12.append(MapTile("Start","Start","","","Edge",""))
     X12.append(MapTile("Normal","none","","","Edge",""))
     X12.append(MapTile("Normal","none","","Edge","Edge",""))
     map.append(X12)
-    for i in range(12):
-        print(map[i][0].type, map[i][1].type, map[i][2].type, map[i][3].type, map[i][4].type, map[i][5].type, map[i][6].type, map[i][7].type, map[i][8].type, map[i][9].type, map[i][10].type, map[i][11].type, map[i][12].type, map[i][13].type, map[i][14].type)
+    #for i in range(12):
+    #    print(map[i][0].type, map[i][1].type, map[i][2].type, map[i][3].type, map[i][4].type, map[i][5].type, map[i][6].type, map[i][7].type, map[i][8].type, map[i][9].type, map[i][10].type, map[i][11].type, map[i][12].type, map[i][13].type, map[i][14].type)
 
 def generateProgDecks():
     hands = []
@@ -385,10 +390,46 @@ def DealUpgrCards(RoboNum, upgradeDeck):
     TMP.append(upgradeDeck.pop(0))
     #print(TMP[0].rule, TMP[1].rule, TMP[2].rule)
     return TMP
-    
+robots = []
+placementorder = []
+def generateRobot():
+    for i in range(NumOfRobots):
+        robots.append(RobotInfo((0,0),(0,0)))
+
+def generatePlacementOrder():
+    for i in range(NumOfRobots):
+        placementorder.append(i)
+    random.shuffle(placementorder)
+pointNums = []
+startpoints = []
+startpointsHuman = []
 def PlaceRobotsAndArchiveTokens():
-    True
+    for y in range(12):
+        for x in range(15):
+            if map[y][x].type == "Start":
+                startpoints.append((x, y))
+                startpointsHuman.append((x+1, y+1))
+    for i in range(len(startpoints)):
+        pointNums.append(i+1)
+    i = 0
+    while i < NumOfRobots:
+        print(startpointsHuman)
+        pointNum = int(input ("team: " + str(placementorder[i]) + " startpoint num: "))
+        if pointNum < 9 and pointNum > 0 and pointNums.count(pointNum) != 0:
+            pointNums.remove(pointNum)
+            print(startpoints[pointNum - 1])
+            robots[placementorder[i]].position = startpoints[pointNum - 1]
+            robots[placementorder[i]].ArchiveTokenPos = startpoints[pointNum - 1]
+            print(robots[placementorder[i]].position)
+            i += 1
+        else:
+            print("Position Taken or Invalid")
+
+
+
+    
 def initalize():
+    generateRobot()
     GenerateMilkRunBoard()
     ProgDecks = generateProgDecks()
     DamageDeck = generateDamageDeck()
@@ -398,8 +439,8 @@ def initalize():
     ResetCheckpointTracker()
     ResetEnergyTracker()
     randomizePrioToken()
+    generatePlacementOrder()
     PlaceRobotsAndArchiveTokens()
-
 initalize()
 
 
