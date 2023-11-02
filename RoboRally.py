@@ -1,4 +1,6 @@
 import random
+from pathlib import Path
+
 
 class ProgCard:
     def __init__(self, type, rule):
@@ -15,6 +17,17 @@ class DamageCard:
     def __init__(self, type, rule):
         self.type = type
         self.rule = rule
+
+class MapTile:
+    def __init__(self, type, rule, rotationBeltsOnly, side0, side1, side2, side3):
+        self.type = type
+        self.rule = rule
+        self.rotationBeltsOnly = rotationBeltsOnly
+        self.side0 = side0
+        self.side1 = side1
+        self.side2 = side2
+        self.side3 = side3
+
 NumOfCheckpoints = 3
 ProgDecks = []
 NumOfRobots = 5
@@ -45,8 +58,7 @@ ProgDeckTemplate = [ProgCard("Program", "move1"),
             ProgCard("Program", "Again")]
 
 
-
-def GenerateBoars():
+def GenerateBoard():
     True
 
 def generateProgDecks():
