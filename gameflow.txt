@@ -11,19 +11,19 @@ give priority token
 
 
 
-Upgrade Phase
+UpgradePhase
 All players can aquire install or uninstall new upgrades 
 Draw new upgrade
 Install an upgrade
 Uninstall as many upgrades as you want
 Check For ready
 
-Programming phase
+ProgrammingPhase
 All players at same time
 Draw until you have 9 cards from programming deck if deck runs out shuffle discard pile
 Place a card into each register
 
-Activation Phase
+ActivationPhase
 for int i=0, i<5, i++ {
 All players flip programming card i
 Starting at the player with the priority token moving clockwise carry out the card
@@ -40,6 +40,17 @@ Update Checkpoints
 pass token to the left
 Discard Face up damage and Programming cards
 Return to Upgrade phase
+
+
+
+
+
+
+
+
+
+
+
 
 //ProgDecksDone
 in each player Prog Deck

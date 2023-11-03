@@ -334,10 +334,10 @@ def ResetEnergyTracker():
     #print(energy)
     return
 
-def randomizePrioToken():
-    PrioToken = random.randint(0, NumOfRobots)
-    #print(PrioToken)
-    return
+#def randomizePrioToken():
+    #PrioToken = random.randint(0, NumOfRobots)
+   # print(PrioToken)
+    #return
 
 def generateUpgradeDeck():
         UpgradeCardDeck = [UpgradeCard("Permanent", "Brakes", "2"),
@@ -417,7 +417,7 @@ def PlaceRobotsAndArchiveTokens():
         pointNum = int(input ("team: " + str(placementorder[i]) + " startpoint num: "))
         if pointNum < 9 and pointNum > 0 and pointNums.count(pointNum) != 0:
             pointNums.remove(pointNum)
-            print(startpoints[pointNum - 1])
+            #print(startpoints[pointNum - 1])
             robots[placementorder[i]].position = startpoints[pointNum - 1]
             robots[placementorder[i]].ArchiveTokenPos = startpoints[pointNum - 1]
             print(robots[placementorder[i]].position)
@@ -425,8 +425,14 @@ def PlaceRobotsAndArchiveTokens():
         else:
             print("Position Taken or Invalid")
 
+def UpgradePhase():
+    return
 
+def ProgrammingPhase():
+    return
 
+def ActivationPhase():
+    return
     
 def initalize():
     generateRobot()
@@ -440,8 +446,13 @@ def initalize():
     ResetEnergyTracker()
     generatePlacementOrder()
     PlaceRobotsAndArchiveTokens()
-    randomizePrioToken()
+    print(placementorder)
+    return 1
+
 initalize()
+UpgradePhase()
+ProgrammingPhase()
+ActivationPhase()
 
 
 #for i in range(len(upgradeDeck )):
