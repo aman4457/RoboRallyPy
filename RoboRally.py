@@ -481,13 +481,16 @@ def placeProgCards():
             except:
                 print("invalid")
         ProgRegisters.append(TMP)
+againBuffer = ""
 
 def ActivationPhase():
     for i in range(5):
         for j in range(NumOfRobots):
-            againBuffer = "move2"
             k = placementorder[j]
             test = ProgRegisters[k][i].rule
+            if test == "Again":
+                print("Again:", againBuffer)
+                test = againBuffer
             if test == "move1":
                 againBuffer = "move1"
                 #print(againBuffer)
@@ -599,17 +602,54 @@ def ActivationPhase():
                 robots[placementorder[j]].rotation += 1
                 if robots[placementorder[j]].rotation == 4:
                     robots[placementorder[j]].rotation = 0
-                print("ROR")
+                print(robots[placementorder[j]].rotation)
             elif test == "ROL":
-                print("ROL")
+                robots[placementorder[j]].rotation -= 1
+                if robots[placementorder[j]].rotation == -1:
+                    robots[placementorder[j]].rotation = 3
+                print(robots[placementorder[j]].rotation)
             elif test == "UTurn":
+                robots[placementorder[j]].rotation += 2
+                if robots[placementorder[j]].rotation == 4:
+                    robots[placementorder[j]].rotation = 0
+                if robots[placementorder[j]].rotation == -1:
+                    robots[placementorder[j]].rotation = 3
                 print("UTurn")
             elif test == "Back":
+                if robots[placementorder[j]].rotation == 2:
+                    #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
+                        #print(robots[placementorder[j]].position)
+                        robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
+                        print(robots[placementorder[j]].position)
+                    else:
+                        print("wall or edge")
+                if robots[placementorder[j]].rotation == 3:
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
+                        #print(robots[placementorder[j]].position)
+                        robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
+                        print(robots[placementorder[j]].position)
+                    else:
+                        print("wall or edge")
+                if robots[placementorder[j]].rotation == 0:
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
+                        #print(robots[placementorder[j]].position)
+                        robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
+                        print(robots[placementorder[j]].position)
+                    else:
+                        print("wall or edge")
+                if robots[placementorder[j]].rotation == 1:
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
+                        #print(robots[placementorder[j]].position)
+                        robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
+                        print(robots[placementorder[j]].position)
+                    else:
+                        print("wall or edge")
                 print("Back")
             elif test == "PowerUp":
-                print("PowerUp")
-            elif test == "Again":
-                print("Again")
+                if energy[placementorder[j]] < 10:
+                    energy[placementorder[j]] += 1 
+                print(energy[placementorder[j]])
             """match test:
                 case "move1":
                     print("move1")
