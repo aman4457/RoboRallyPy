@@ -27,15 +27,16 @@ class MapTile:
         self.side2 = side2
         self.side3 = side3
 class RobotInfo:
-    def __init__(self, position, ArchiveTokenPos):
+    def __init__(self, position, ArchiveTokenPos, rotation):
         self.position = position
         self.ArchiveTokenPos = ArchiveTokenPos
 
 map = []
 NumOfCheckpoints = 3
 ProgDecks = []
-NumOfRobots = 5
+NumOfRobots = 1
 ProgHands = []
+ProgDiscs = []
 UpgrHands = []
 Checkpoint = []
 energy = []
@@ -64,7 +65,7 @@ ProgDeckTemplate = [ProgCard("Program", "move1"),
 
 def GenerateMilkRunBoard():
     X1 = []
-    X1.append(MapTile("Normal","none","edge","","","Edge"))
+    X1.append(MapTile("Start","Start","edge","","","edge"))
     X1.append(MapTile("Blue", "move","edge","","out",""))
     X1.append(MapTile("Normal","none","edge","","",""))
     X1.append(MapTile("Blue", "move","edge","","out",""))
@@ -78,10 +79,10 @@ def GenerateMilkRunBoard():
     X1.append(MapTile("Normal","none","edge","","",""))
     X1.append(MapTile("Normal","none","edge","","",""))
     X1.append(MapTile("Normal","none","edge","","",""))
-    X1.append(MapTile("Normal","none","edge","Edge","",""))
+    X1.append(MapTile("Normal","none","edge","edge","",""))
     map.append(X1)
     X2 = []
-    X2.append(MapTile("Normal","none","","","","Edge"))
+    X2.append(MapTile("Normal","none","","","","edge"))
     X2.append(MapTile("Blue", "move","in","","out",""))
     X2.append(MapTile("Checkpoint","update","","","",""))
     X2.append(MapTile("Blue", "move","in","","out",""))
@@ -95,10 +96,10 @@ def GenerateMilkRunBoard():
     X2.append(MapTile("Blue","move","","in","","out"))
     X2.append(MapTile("Normal","none","","","",""))
     X2.append(MapTile("Normal","none","","","",""))
-    X2.append(MapTile("Normal","none","","Edge","",""))
+    X2.append(MapTile("Normal","none","","edge","",""))
     map.append(X2)
     X3 = []
-    X3.append(MapTile("Normal","none","","","","Edge"))
+    X3.append(MapTile("Normal","none","","","","edge"))
     X3.append(MapTile("Blue", "move","in","","out",""))
     X3.append(MapTile("Normal","none","","","",""))
     X3.append(MapTile("Blue", "move","in","","out",""))
@@ -112,10 +113,10 @@ def GenerateMilkRunBoard():
     X3.append(MapTile("Normal","none","","","",""))
     X3.append(MapTile("Normal","none","","","wall",""))
     X3.append(MapTile("Normal","none","","","wall",""))
-    X3.append(MapTile("Normal","none","","Edge","wall",""))
+    X3.append(MapTile("Normal","none","","edge","wall",""))
     map.append(X3)
     X4 = []
-    X4.append(MapTile("Normal","none","","","","Edge"))
+    X4.append(MapTile("Normal","none","","","","edge"))
     X4.append(MapTile("Blue", "move","in","","out",""))
     X4.append(MapTile("Battery","Charge","","","",""))
     X4.append(MapTile("Blue", "move","in","","out",""))
@@ -129,10 +130,10 @@ def GenerateMilkRunBoard():
     X4.append(MapTile("Blue","move","","out","","in"))
     X4.append(MapTile("Normal","none","wall","","",""))
     X4.append(MapTile("Normal","none","wall","","",""))
-    X4.append(MapTile("Normal","none","wall","Edge","",""))
+    X4.append(MapTile("Normal","none","wall","edge","",""))
     map.append(X4)
     X5 = []
-    X5.append(MapTile("Normal","none","","","","Edge"))
+    X5.append(MapTile("Normal","none","","","","edge"))
     X5.append(MapTile("Blue", "move","in","","out",""))
     X5.append(MapTile("Normal","none","","","",""))
     X5.append(MapTile("Blue", "move","in","","out",""))
@@ -146,10 +147,10 @@ def GenerateMilkRunBoard():
     X5.append(MapTile("Green","move","","in","","out"))
     X5.append(MapTile("Normal","none","","","",""))
     X5.append(MapTile("Start","Start","","","",""))
-    X5.append(MapTile("Normal","none","","Edge","",""))
+    X5.append(MapTile("Normal","none","","edge","",""))
     map.append(X5)
     X6 = []
-    X6.append(MapTile("Green","move","","","in","Edge"))
+    X6.append(MapTile("Green","move","","","in","edge"))
     X6.append(MapTile("Blue", "move","in","out","",""))
     X6.append(MapTile("Blue","move","","out","","in"))
     X6.append(MapTile("Blue", "move","out","","","in"))
@@ -163,10 +164,10 @@ def GenerateMilkRunBoard():
     X6.append(MapTile("Green","move","out","in","",""))
     X6.append(MapTile("Normal","none","","","wall",""))
     X6.append(MapTile("Start","Start","","","wall",""))
-    X6.append(MapTile("Normal","none","","Edge","wall",""))
+    X6.append(MapTile("Normal","none","","edge","wall",""))
     map.append(X6)
     X7 = []
-    X7.append(MapTile("Green","move","out","in","","Edge"))
+    X7.append(MapTile("Green","move","out","in","","edge"))
     X7.append(MapTile("Green", "move","","in","","out"))
     X7.append(MapTile("Green","move","","","in","out"))
     X7.append(MapTile("Green", "move","","in","out",""))
@@ -180,10 +181,10 @@ def GenerateMilkRunBoard():
     X7.append(MapTile("Normal","none","","","",""))
     X7.append(MapTile("Normal","none","wall","","",""))
     X7.append(MapTile("Start","Start","wall","","",""))
-    X7.append(MapTile("Normal","none","wall","Edge","",""))
+    X7.append(MapTile("Normal","none","wall","edge","",""))
     map.append(X7)
     X8 = []
-    X8.append(MapTile("Normal","none","","","","Edge"))
+    X8.append(MapTile("Normal","none","","","","edge"))
     X8.append(MapTile("Normal","none","","","",""))
     X8.append(MapTile("Green", "move","out","in","",""))
     X8.append(MapTile("Green","move","in","","","out"))
@@ -197,10 +198,10 @@ def GenerateMilkRunBoard():
     X8.append(MapTile("Normal","none","","","",""))
     X8.append(MapTile("Normal","none","","","",""))
     X8.append(MapTile("Start","Start","","","",""))
-    X8.append(MapTile("Normal","none","","Edge","",""))
+    X8.append(MapTile("Normal","none","","edge","",""))
     map.append(X8)
     X9 = []
-    X9.append(MapTile("Blue","move","","in","","Edge"))
+    X9.append(MapTile("Blue","move","","in","","edge"))
     X9.append(MapTile("Blue", "move","","in","","out"))
     X9.append(MapTile("Blue","move","","in","","out"))
     X9.append(MapTile("Blue", "move","","in","","out"))
@@ -214,10 +215,10 @@ def GenerateMilkRunBoard():
     X9.append(MapTile("Normal","none","","","",""))
     X9.append(MapTile("Normal","none","","","wall",""))
     X9.append(MapTile("Start","Start","","","wall",""))
-    X9.append(MapTile("Normal","none","","Edge","wall",""))
+    X9.append(MapTile("Normal","none","","edge","wall",""))
     map.append(X9)
     X10 = []
-    X10.append(MapTile("Normal","none","","","","Edge"))
+    X10.append(MapTile("Normal","none","","","","edge"))
     X10.append(MapTile("Normal", "none","","","",""))
     X10.append(MapTile("Normal","none","","","",""))
     X10.append(MapTile("Battery","Charge","","","",""))
@@ -231,10 +232,10 @@ def GenerateMilkRunBoard():
     X10.append(MapTile("Normal","none","","","",""))
     X10.append(MapTile("Start","Start","wall","","",""))
     X10.append(MapTile("Normal","none","wall","","",""))
-    X10.append(MapTile("Normal","none","wall","Edge","",""))
+    X10.append(MapTile("Normal","none","wall","edge","",""))
     map.append(X10)
     X11 = []
-    X11.append(MapTile("Blue","move","","out","","Edge"))
+    X11.append(MapTile("Blue","move","","out","","edge"))
     X11.append(MapTile("Blue", "move","","out","","in"))
     X11.append(MapTile("Blue","move","","out","","in"))
     X11.append(MapTile("Blue", "move","","out","","in"))
@@ -248,35 +249,35 @@ def GenerateMilkRunBoard():
     X11.append(MapTile("Normal","none","","","",""))
     X11.append(MapTile("Start","Start","","","",""))
     X11.append(MapTile("Normal","none","","","",""))
-    X11.append(MapTile("Normal","none","","Edge","",""))
+    X11.append(MapTile("Normal","none","","edge","",""))
     map.append(X11)
     X12 = []
-    X12.append(MapTile("Normal","none","","","Edge","Edge"))
-    X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Green", "move","","in","Edge",""))
-    X12.append(MapTile("Green","none","in","","Edge","out"))
-    X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Blue","none","in","","Edge",""))
-    X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Blue","none","out","","Edge",""))
-    X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Start","Start","","","Edge",""))
-    X12.append(MapTile("Normal","none","","","Edge",""))
-    X12.append(MapTile("Normal","none","","Edge","Edge",""))
+    X12.append(MapTile("Normal","none","","","edge","edge"))
+    X12.append(MapTile("Normal","none","","","edge",""))
+    X12.append(MapTile("Normal","none","","","edge",""))
+    X12.append(MapTile("Normal","none","","","edge",""))
+    X12.append(MapTile("Normal","none","","","edge",""))
+    X12.append(MapTile("Green", "move","","in","edge",""))
+    X12.append(MapTile("Green","none","in","","edge","out"))
+    X12.append(MapTile("Normal","none","","","edge",""))
+    X12.append(MapTile("Blue","none","in","","edge",""))
+    X12.append(MapTile("Normal","none","","","edge",""))
+    X12.append(MapTile("Blue","none","out","","edge",""))
+    X12.append(MapTile("Normal","none","","","edge",""))
+    X12.append(MapTile("Start","Start","","","edge",""))
+    X12.append(MapTile("Normal","none","","","edge",""))
+    X12.append(MapTile("Normal","none","","edge","edge",""))
     map.append(X12)
     #for i in range(12):
     #    print(map[i][0].type, map[i][1].type, map[i][2].type, map[i][3].type, map[i][4].type, map[i][5].type, map[i][6].type, map[i][7].type, map[i][8].type, map[i][9].type, map[i][10].type, map[i][11].type, map[i][12].type, map[i][13].type, map[i][14].type)
 
 def generateProgDecks():
-    hands = []
     for i in range(NumOfRobots):
-        tmp = ProgDeckTemplate
+        tmp = []
+        tmp = ProgDeckTemplate.copy()
         random.shuffle(tmp)
-        hands.append(tmp)
-    return hands
+        ProgDecks.append(tmp)
+    return ProgDecks
 
 def generateDamageDeck():
     DamageDeck = [DamageCard("SPAM",""),
@@ -394,7 +395,7 @@ robots = []
 placementorder = []
 def generateRobot():
     for i in range(NumOfRobots):
-        robots.append(RobotInfo((0,0),(0,0)))
+        robots.append(RobotInfo((0,0),(0,0),0))
 
 def generatePlacementOrder():
     for i in range(NumOfRobots):
@@ -415,11 +416,13 @@ def PlaceRobotsAndArchiveTokens():
     while i < NumOfRobots:
         print(startpointsHuman)
         pointNum = int(input ("team: " + str(placementorder[i]) + " startpoint num: "))
-        if pointNum < 9 and pointNum > 0 and pointNums.count(pointNum) != 0:
+        rotate = int(input("team: " + str(placementorder[i]) + " N = 0 E = 1 S = 2 W = 3 facing: "))
+        if pointNum < 9 and pointNum > 0 and pointNums.count(pointNum) != 0 and rotate >= 0 and rotate < 4:
             pointNums.remove(pointNum)
             #print(startpoints[pointNum - 1])
             robots[placementorder[i]].position = startpoints[pointNum - 1]
             robots[placementorder[i]].ArchiveTokenPos = startpoints[pointNum - 1]
+            robots[placementorder[i]].rotation = rotate
             print(robots[placementorder[i]].position)
             i += 1
         else:
@@ -428,10 +431,208 @@ def PlaceRobotsAndArchiveTokens():
 def UpgradePhase():
     return
 
+ProgRegisters = []
+
 def ProgrammingPhase():
+    #k = 0
+    drawProgCards()
+    placeProgCards()
+    """
+    for j in range(NumOfRobots):
+        for i in range(5):
+            print(ProgRegisters[j][i].rule, end=" ")
+        print("")
+    """
     return
 
+def drawProgCards():
+    for i in range(NumOfRobots):
+        temptst = []
+        for j in range(9):
+            #print(i)
+            #print(ProgDecks[i])
+            #print(ProgDecks[0], " test ", ProgDecks[1])
+            try:
+                if len(ProgHands[i]) != 9:
+                    temptst.append(ProgDecks[i].pop(0))
+                    #print(temptst[j].rule)
+                    #k += 1
+            except:
+                temptst.append(ProgDecks[i].pop(0))
+                #print(temptst[j].rule)
+                #k += 1
+        ProgHands.append(temptst)
+
+def placeProgCards():
+    for i in range(NumOfRobots):
+        TMP = []
+        j = 0
+        while j < 5:
+            for k in range(len(ProgHands[i])):
+                print(ProgHands[i][k].rule, end=" ")
+            print("")
+            #print(ProgHands[i][0].rule, ProgHands[i][1].rule, ProgHands[i][2].rule, ProgHands[i][3].rule, ProgHands[i][4].rule, ProgHands[i][5].rule, ProgHands[i][6].rule, ProgHands[i][7].rule, ProgHands[i][8].rule)
+            try:
+                inputy = int(input("Team:" + str(i) + " Which Program Card: "))
+                test = ProgHands[i].pop(inputy - 1)
+                print(test.rule)
+                TMP.append(test)
+                j += 1
+            except:
+                print("invalid")
+        ProgRegisters.append(TMP)
+
 def ActivationPhase():
+    for i in range(5):
+        for j in range(NumOfRobots):
+            againBuffer = "move2"
+            k = placementorder[j]
+            test = ProgRegisters[k][i].rule
+            if test == "move1":
+                againBuffer = "move1"
+                #print(againBuffer)
+                if robots[placementorder[j]].rotation == 0:
+                    #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
+                        #print(robots[placementorder[j]].position)
+                        robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
+                        print(robots[placementorder[j]].position)
+                    else:
+                        print("wall or edge")
+                if robots[placementorder[j]].rotation == 1:
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
+                        #print(robots[placementorder[j]].position)
+                        robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
+                        print(robots[placementorder[j]].position)
+                    else:
+                        print("wall or edge")
+                if robots[placementorder[j]].rotation == 2:
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
+                        #print(robots[placementorder[j]].position)
+                        robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
+                        print(robots[placementorder[j]].position)
+                    else:
+                        print("wall or edge")
+                if robots[placementorder[j]].rotation == 3:
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
+                        #print(robots[placementorder[j]].position)
+                        robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
+                        print(robots[placementorder[j]].position)
+                    else:
+                        print("wall or edge")
+            elif test == "move2":
+                againBuffer = "move2"
+                #print(againBuffer)
+                if robots[placementorder[j]].rotation == 0:
+                    #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
+                    for i in range(2):
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
+                            #print(robots[placementorder[j]].position)
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
+                            print(robots[placementorder[j]].position)
+                        else:
+                            print("wall or edge")
+                    
+                if robots[placementorder[j]].rotation == 1:
+                    for i in range(2):
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
+                            #print(robots[placementorder[j]].position)
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
+                            print(robots[placementorder[j]].position)
+                        else:
+                            print("wall or edge")
+                if robots[placementorder[j]].rotation == 2:
+                    for i in range(2):
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
+                            #print(robots[placementorder[j]].position)
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
+                            print(robots[placementorder[j]].position)
+                        else:
+                            print("wall or edge")
+                if robots[placementorder[j]].rotation == 3:
+                    for i in range(2):
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
+                            #print(robots[placementorder[j]].position)
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
+                            print(robots[placementorder[j]].position)
+                        else:
+                            print("wall or edge")
+            elif test == "move3":
+                againBuffer = "move3"
+                #print(againBuffer)
+                if robots[placementorder[j]].rotation == 0:
+                    #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
+                    for i in range(3):
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
+                            #print(robots[placementorder[j]].position)
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
+                            print(robots[placementorder[j]].position)
+                        else:
+                            print("wall or edge")
+                    
+                if robots[placementorder[j]].rotation == 1:
+                    for i in range(3):
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
+                            #print(robots[placementorder[j]].position)
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
+                            print(robots[placementorder[j]].position)
+                        else:
+                            print("wall or edge")
+                if robots[placementorder[j]].rotation == 2:
+                    for i in range(3):
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
+                            #print(robots[placementorder[j]].position)
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
+                            print(robots[placementorder[j]].position)
+                        else:
+                            print("wall or edge")
+                if robots[placementorder[j]].rotation == 3:
+                    for i in range(3):
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
+                            #print(robots[placementorder[j]].position)
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
+                            print(robots[placementorder[j]].position)
+                        else:
+                            print("wall or edge")
+            elif test == "ROR":
+                againBuffer = "ROR"
+                robots[placementorder[j]].rotation += 1
+                if robots[placementorder[j]].rotation == 4:
+                    robots[placementorder[j]].rotation = 0
+                print("ROR")
+            elif test == "ROL":
+                print("ROL")
+            elif test == "UTurn":
+                print("UTurn")
+            elif test == "Back":
+                print("Back")
+            elif test == "PowerUp":
+                print("PowerUp")
+            elif test == "Again":
+                print("Again")
+            """match test:
+                case "move1":
+                    print("move1")
+                case "move2":
+                    print("move2")
+                case "move3":
+                    print("move3")
+                case "ROR":
+                    print("ROR")
+                case "ROL":
+                    print("ROL")
+                case "UTurn":
+                    print("UTurn")
+                case "Back":
+                    print("Back")
+                case "PowerUp":
+                    print("PowerUp")
+                case "Again":
+                    print("Again")
+                case _:
+                    True
+            """
+                
     return
     
 def initalize():
@@ -446,11 +647,15 @@ def initalize():
     ResetEnergyTracker()
     generatePlacementOrder()
     PlaceRobotsAndArchiveTokens()
-    print(placementorder)
+    #print(placementorder)
     return 1
 
 initalize()
 UpgradePhase()
+#for i in range(20):
+    #print(ProgDecks[0][i].rule, ProgDecks[1][i].rule)
+
+
 ProgrammingPhase()
 ActivationPhase()
 
@@ -464,6 +669,5 @@ ActivationPhase()
 #for i in range(NumOfRobots):
     #print(UpgrHands[i][0].rule, UpgrHands[i][1].rule, UpgrHands[i][2].rule)
 
-#for i in range(len(ProgDeckTemplate)):
-   # print(ProgDeckTemplate[i].type, ProgDeckTemplate[i].rule)
+
 
