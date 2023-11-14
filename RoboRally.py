@@ -1,5 +1,8 @@
 import random
 from pathlib import Path
+import socket
+import pickle
+
 
 
 class ProgCard:
@@ -61,6 +64,27 @@ ProgDeckTemplate = [ProgCard("Program", "move1"),
             ProgCard("Program", "Back"),
             ProgCard("Program", "PowerUp"),
             ProgCard("Program", "Again")]
+
+def startServer():
+    startingPort = 8000
+    server_ip = ""
+
+    for i in range(NumOfRobots):
+        global client_socket_dynamic, client_address_dynamic 
+        dynamic_var_name = "botServer" + str(i)
+        port = startingPort + i
+        server_ip = ""
+        client_socket_dynamic = "client_socket" + str(i)
+        client_address_dynamic = "client_address" + str(i)
+        globals()[dynamic_var_name] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        globals()[dynamic_var_name].bind((server_ip, port))
+        globals()[dynamic_var_name].listen(0) 
+        print(f"Listening on {server_ip}:8000")
+        # accept incoming connections
+        globals()[client_socket_dynamic], globals()[client_address_dynamic] = globals()[dynamic_var_name].accept()
+        #print(f"Accepted connection from {client_address[0]}:{client_address[1]}")
+        #request = pickle.dumps("test")
+
 
 
 def GenerateMilkRunBoard():
@@ -415,7 +439,14 @@ def PlaceRobotsAndArchiveTokens():
     i = 0
     while i < NumOfRobots:
         print(startpointsHuman)
-        pointNum = int(input ("team: " + str(placementorder[i]) + " startpoint num: "))
+        test = pickle.dumps(startpointsHuman)
+        dynamic_var_name = "botServer" + str(i)
+        client_socket_dynamic = "client_socket" + str(i)
+        client_address_dynamic = "client_address" + str(i)
+        globals()[client_socket_dynamic].send(test)
+        #pointNum = int(input ("team: " + str(placementorder[i]) + " startpoint num: "))
+        pointNum = pickle.loads(globals()[client_socket_dynamic].recv(1024))
+        globals()[client_socket_dynamic].send("team: " + str(placementorder[i]) + " N = 0 E = 1 S = 2 W = 3 facing: ")
         rotate = int(input("team: " + str(placementorder[i]) + " N = 0 E = 1 S = 2 W = 3 facing: "))
         if pointNum < 9 and pointNum > 0 and pointNums.count(pointNum) != 0 and rotate >= 0 and rotate < 4:
             pointNums.remove(pointNum)
@@ -676,6 +707,7 @@ def ActivationPhase():
     return
     
 def initalize():
+    startServer()
     generateRobot()
     GenerateMilkRunBoard()
     ProgDecks = generateProgDecks()
