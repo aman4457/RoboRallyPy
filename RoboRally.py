@@ -2,8 +2,7 @@ import random
 from pathlib import Path
 import socket
 import pickle
-
-
+import time
 
 class ProgCard:
     def __init__(self, type, rule):
@@ -79,7 +78,7 @@ def startServer():
         globals()[dynamic_var_name] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         globals()[dynamic_var_name].bind((server_ip, port))
         globals()[dynamic_var_name].listen(0) 
-        print(f"Listening on {server_ip}:8000")
+        print(f"Listening on {server_ip}:{port}")
         # accept incoming connections
         globals()[client_socket_dynamic], globals()[client_address_dynamic] = globals()[dynamic_var_name].accept()
         #print(f"Accepted connection from {client_address[0]}:{client_address[1]}")
@@ -440,14 +439,14 @@ def PlaceRobotsAndArchiveTokens():
     while i < NumOfRobots:
         print(startpointsHuman)
         test = pickle.dumps(startpointsHuman)
-        dynamic_var_name = "botServer" + str(i)
-        client_socket_dynamic = "client_socket" + str(i)
-        client_address_dynamic = "client_address" + str(i)
+        dynamic_var_name = "botServer" + str(placementorder[i])
+        client_socket_dynamic = "client_socket" + str(placementorder[i])
+        client_address_dynamic = "client_address" + str(placementorder[i])
         globals()[client_socket_dynamic].send(test)
         #pointNum = int(input ("team: " + str(placementorder[i]) + " startpoint num: "))
-        pointNum = pickle.loads(globals()[client_socket_dynamic].recv(1024))
-        globals()[client_socket_dynamic].send("team: " + str(placementorder[i]) + " N = 0 E = 1 S = 2 W = 3 facing: ")
-        rotate = int(input("team: " + str(placementorder[i]) + " N = 0 E = 1 S = 2 W = 3 facing: "))
+        pointNum = int(pickle.loads(globals()[client_socket_dynamic].recv(1024)))
+        globals()[client_socket_dynamic].send(pickle.dumps("team: " + str(placementorder[i]) + " N = 0 E = 1 S = 2 W = 3 facing: "))
+        rotate = int(pickle.loads(globals()[client_socket_dynamic].recv(1024)))
         if pointNum < 9 and pointNum > 0 and pointNums.count(pointNum) != 0 and rotate >= 0 and rotate < 4:
             pointNums.remove(pointNum)
             #print(startpoints[pointNum - 1])
@@ -456,8 +455,10 @@ def PlaceRobotsAndArchiveTokens():
             robots[placementorder[i]].rotation = rotate
             print(robots[placementorder[i]].position)
             i += 1
+            globals()[client_socket_dynamic].send(pickle.dumps("success"))
         else:
-            print("Position Taken or Invalid")
+            globals()[client_socket_dynamic].send(pickle.dumps("Position Taken or Invalid"))
+            #print("Position Taken or Invalid")
 
 def UpgradePhase():
     return
@@ -496,21 +497,36 @@ def drawProgCards():
 
 def placeProgCards():
     for i in range(NumOfRobots):
+        dynamic_var_name = "botServer" + str(placementorder[i])
+        client_socket_dynamic = "client_socket" + str(placementorder[i])
+        client_address_dynamic = "client_address" + str(placementorder[i])
         TMP = []
-        j = 0
-        while j < 5:
-            for k in range(len(ProgHands[i])):
-                print(ProgHands[i][k].rule, end=" ")
-            print("")
-            #print(ProgHands[i][0].rule, ProgHands[i][1].rule, ProgHands[i][2].rule, ProgHands[i][3].rule, ProgHands[i][4].rule, ProgHands[i][5].rule, ProgHands[i][6].rule, ProgHands[i][7].rule, ProgHands[i][8].rule)
-            try:
-                inputy = int(input("Team:" + str(i) + " Which Program Card: "))
-                test = ProgHands[i].pop(inputy - 1)
-                print(test.rule)
-                TMP.append(test)
-                j += 1
-            except:
-                print("invalid")
+        SendProgHands = [ProgHands[i][0], ProgHands[i][1], ProgHands[i][2], ProgHands[i][3], ProgHands[i][4], ProgHands[i][5], ProgHands[i][6], ProgHands[i][7], ProgHands[i][8]]
+        globals()[client_socket_dynamic].send(pickle.dumps(SendProgHands))
+        #j = 0
+        #@while j < 5:
+        #    for k in range(len(ProgHands[i])):
+        #        print(ProgHands[i][k].rule, end=" ")
+        #    print("")
+        #    #print(ProgHands[i][0].rule, ProgHands[i][1].rule, ProgHands[i][2].rule, ProgHands[i][3].rule, ProgHands[i][4].rule, ProgHands[i][5].rule, ProgHands[i][6].rule, ProgHands[i][7].rule, ProgHands[i][8].rule)
+        #    try:
+        #        inputy = int(input("Team:" + str(i) + " Which Program Card: "))
+        #        test = ProgHands[i].pop(inputy - 1)
+        #        print(test.rule)
+        #        TMP.append(test)
+        #        j += 1
+        #    except:
+        #        print("invalid")
+        #ProgRegisters.append(TMP)
+    for i in range(NumOfRobots):
+        dynamic_var_name = "botServer" + str(placementorder[i])
+        client_socket_dynamic = "client_socket" + str(placementorder[i])
+        client_address_dynamic = "client_address" + str(placementorder[i])
+        test = ""
+        time.sleep(1)
+        globals()[client_socket_dynamic].send(pickle.dumps("ready"))
+        TMP = pickle.loads(globals()[client_socket_dynamic].recv(1024))
+        print(TMP)
         ProgRegisters.append(TMP)
 againBuffer = ""
 
