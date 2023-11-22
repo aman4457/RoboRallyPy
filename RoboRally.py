@@ -36,7 +36,7 @@ class RobotInfo:
 map = []
 NumOfCheckpoints = 3
 ProgDecks = []
-NumOfRobots = 1
+NumOfRobots = 2
 ProgHands = []
 ProgDiscs = []
 UpgrHands = []
@@ -105,7 +105,7 @@ def GenerateMilkRunBoard():
     X1.append(MapTile("Normal","none","edge","edge","",""))
     map.append(X1)
     X2 = []
-    X2.append(MapTile("Normal","none","","","","edge"))
+    X2.append(MapTile("Start","Start","","","","edge"))
     X2.append(MapTile("Blue", "move","in","","out",""))
     X2.append(MapTile("Checkpoint","update","","","",""))
     X2.append(MapTile("Blue", "move","in","","out",""))
@@ -526,85 +526,194 @@ def placeProgCards():
         time.sleep(1)
         globals()[client_socket_dynamic].send(pickle.dumps("ready"))
         TMP = pickle.loads(globals()[client_socket_dynamic].recv(1024))
-        print(TMP)
+        #print(TMP)
         ProgRegisters.append(TMP)
-againBuffer = ""
+againBuffer = "move1"
 
 def ActivationPhase():
     for i in range(5):
         for j in range(NumOfRobots):
+            #againBuffer = "move1"
             k = placementorder[j]
             test = ProgRegisters[k][i].rule
+            blocked = 0
+            #print(blocked)
             if test == "Again":
                 print("Again:", againBuffer)
                 test = againBuffer
-            if test == "move1":
                 againBuffer = "move1"
                 #print(againBuffer)
+            elif test == "move1":
                 if robots[placementorder[j]].rotation == 0:
+                    for l in range(NumOfRobots):
+                        if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1) == robots[l].position:
+                            blocked = 1
+                            robotpushnum = l
                     #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
-                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge" and blocked == 0:
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
+                        #TODO add code for moving robot
                         print(robots[placementorder[j]].position)
+                    elif blocked == 1:
+                        if map[robots[placementorder[j]].position[1] - 1][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1] - 1][robots[placementorder[j]].position[0]].side0 != "edge":
+                            print("push")
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
+                            robots[robotpushnum].position = (robots[robotpushnum].position[0], robots[robotpushnum].position[1] - 1)
+                            print(robots[placementorder[j]].position)
+                            print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                            #TODO add code for moving robots
+                        else:
+                            print("blocked")
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 1:
-                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
+                    for l in range(NumOfRobots):
+                        if (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1]) == robots[l].position:
+                            blocked = 1
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge" and blocked == 0:
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
                         print(robots[placementorder[j]].position)
+                    elif blocked == 1:
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] + 1].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] + 1].side1 != "edge":
+                            print("push")
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
+                            robots[robotpushnum].position = (robots[robotpushnum].position[0] + 1, robots[robotpushnum].position[1])
+                            print(robots[placementorder[j]].position)
+                            print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                            #TODO add code for moving robots
+                        else:
+                            print("blocked")
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 2:
-                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
+                    for l in range(NumOfRobots):
+                        if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1) == robots[l].position:
+                            blocked = 1
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge" and blocked == 0:
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
                         print(robots[placementorder[j]].position)
+                    elif blocked == 1:
+                        if map[robots[placementorder[j]].position[1] + 1][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1] + 1][robots[placementorder[j]].position[0]].side2 != "edge":
+                            print("push")
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
+                            robots[robotpushnum].position = (robots[robotpushnum].position[0], robots[robotpushnum].position[1] + 1)
+                            print(robots[placementorder[j]].position)
+                            print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                            #TODO add code for moving robots
+                        else:
+                            print("blocked")
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 3:
-                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
+                    for l in range(NumOfRobots):
+                        if (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1]) == robots[l].position:
+                            blocked = 1
+                    if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge" and blocked == 0:
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
                         print(robots[placementorder[j]].position)
+                    elif blocked == 1:
+                        if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] - 1].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] - 1].side3 != "edge":
+                            print("push")
+                            robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
+                            robots[robotpushnum].position = (robots[robotpushnum].position[0] - 1, robots[robotpushnum].position[1])
+                            print(robots[placementorder[j]].position)
+                            print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                            #TODO add code for moving robots
+                        else:
+                            print("blocked")
                     else:
                         print("wall or edge")
             elif test == "move2":
                 againBuffer = "move2"
                 #print(againBuffer)
                 if robots[placementorder[j]].rotation == 0:
-                    #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
                     for i in range(2):
+                        for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1) == robots[l].position:
+                                blocked = 1
+                    #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
                             print(robots[placementorder[j]].position)
+                        elif blocked == 1:
+                            if map[robots[placementorder[j]].position[1] - 1][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1] - 1][robots[placementorder[j]].position[0]].side0 != "edge":
+                                print("push")
+                                robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
+                                robots[robotpushnum].position = (robots[robotpushnum].position[0], robots[robotpushnum].position[1] - 1)
+                                print(robots[placementorder[j]].position)
+                                print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                                #TODO add code for moving robots
+                            else:
+                                print("blocked")
                         else:
                             print("wall or edge")
                     
                 if robots[placementorder[j]].rotation == 1:
                     for i in range(2):
+                        for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1]) == robots[l].position:
+                                blocked = 1
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
                             print(robots[placementorder[j]].position)
+                        elif blocked == 1:
+                            if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] + 1].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] + 1].side1 != "edge":
+                                print("push")
+                                robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
+                                robots[robotpushnum].position = (robots[robotpushnum].position[0] + 1, robots[robotpushnum].position[1])
+                                print(robots[placementorder[j]].position)
+                                print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                                #TODO add code for moving robots
+                            else:
+                                print("blocked")
                         else:
                             print("wall or edge")
                 if robots[placementorder[j]].rotation == 2:
                     for i in range(2):
+                        for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1) == robots[l].position:
+                                blocked = 1
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
                             print(robots[placementorder[j]].position)
+                        elif blocked == 1:
+                            if map[robots[placementorder[j]].position[1] + 1][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1] + 1][robots[placementorder[j]].position[0]].side2 != "edge":
+                                print("push")
+                                robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
+                                robots[robotpushnum].position = (robots[robotpushnum].position[0], robots[robotpushnum].position[1] + 1)
+                                print(robots[placementorder[j]].position)
+                                print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                                #TODO add code for moving robots
+                            else:
+                                print("blocked")
                         else:
                             print("wall or edge")
                 if robots[placementorder[j]].rotation == 3:
                     for i in range(2):
+                        for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1]) == robots[l].position:
+                                blocked = 1
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
                             print(robots[placementorder[j]].position)
+                        elif blocked == 1:
+                            if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] - 1].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] - 1].side3 != "edge":
+                                print("push")
+                                robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
+                                robots[robotpushnum].position = (robots[robotpushnum].position[0] - 1, robots[robotpushnum].position[1])
+                                print(robots[placementorder[j]].position)
+                                print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                                #TODO add code for moving robots
+                            else:
+                                print("blocked")
                         else:
                             print("wall or edge")
             elif test == "move3":
@@ -613,35 +722,89 @@ def ActivationPhase():
                 if robots[placementorder[j]].rotation == 0:
                     #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
                     for i in range(3):
+                        for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1) == robots[l].position:
+                                #print(l)
+                                robotpushnum = l
+                                blocked = 1
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
                             print(robots[placementorder[j]].position)
+                        elif blocked == 1:
+                            if map[robots[placementorder[j]].position[1] - 1][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1] - 1][robots[placementorder[j]].position[0]].side0 != "edge":
+                                print("push")
+                                robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
+                                robots[robotpushnum].position = (robots[robotpushnum].position[0], robots[robotpushnum].position[1] - 1)
+                                print(robots[placementorder[j]].position)
+                                print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                                #TODO add code for moving robots
+                            else:
+                                print("blocked")
                         else:
                             print("wall or edge")
                     
                 if robots[placementorder[j]].rotation == 1:
                     for i in range(3):
+                        for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1]) == robots[l].position:
+                                blocked = 1
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
                             print(robots[placementorder[j]].position)
+                        elif blocked == 1:
+                            if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] + 1].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] + 1].side1 != "edge":
+                                print("push")
+                                robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
+                                robots[robotpushnum].position = (robots[robotpushnum].position[0] + 1, robots[robotpushnum].position[1])
+                                print(robots[placementorder[j]].position)
+                                print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                                #TODO add code for moving robots
+                            else:
+                                print("blocked")
                         else:
                             print("wall or edge")
                 if robots[placementorder[j]].rotation == 2:
                     for i in range(3):
+                        for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1) == robots[l].position:
+                                blocked = 1
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
                             print(robots[placementorder[j]].position)
+                        elif blocked == 1:
+                            if map[robots[placementorder[j]].position[1] + 1][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1] + 1][robots[placementorder[j]].position[0]].side2 != "edge":
+                                print("push")
+                                robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
+                                robots[robotpushnum].position = (robots[robotpushnum].position[0], robots[robotpushnum].position[1] + 1)
+                                print(robots[placementorder[j]].position)
+                                print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                                #TODO add code for moving robots
+                            else:
+                                print("blocked")
                         else:
                             print("wall or edge")
                 if robots[placementorder[j]].rotation == 3:
                     for i in range(3):
+                        for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1]) == robots[l].position:
+                                blocked = 1
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
                             print(robots[placementorder[j]].position)
+                        elif blocked == 1:
+                            if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] - 1].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0] - 1].side3 != "edge":
+                                print("push")
+                                robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
+                                robots[robotpushnum].position = (robots[robotpushnum].position[0] - 1, robots[robotpushnum].position[1])
+                                print(robots[placementorder[j]].position)
+                                print(robots[robotpushnum].position, "Robot: ",robotpushnum)
+                                #TODO add code for moving robots
+                            else:
+                                print("blocked")
                         else:
                             print("wall or edge")
             elif test == "ROR":
@@ -669,6 +832,8 @@ def ActivationPhase():
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
                         print(robots[placementorder[j]].position)
+                    elif blocked == 1:
+                            print("blocked")
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 3:
@@ -676,6 +841,8 @@ def ActivationPhase():
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
                         print(robots[placementorder[j]].position)
+                    elif blocked == 1:
+                            print("blocked")
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 0:
@@ -683,6 +850,8 @@ def ActivationPhase():
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
                         print(robots[placementorder[j]].position)
+                    elif blocked == 1:
+                            print("blocked")
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 1:
@@ -690,6 +859,8 @@ def ActivationPhase():
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
                         print(robots[placementorder[j]].position)
+                    elif blocked == 1:
+                            print("blocked")
                     else:
                         print("wall or edge")
                 print("Back")
