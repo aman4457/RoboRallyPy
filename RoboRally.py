@@ -538,6 +538,7 @@ def ActivationPhase():
             test = ProgRegisters[k][i].rule
             blocked = 0
             #print(blocked)
+            robotpushnum = 0
             if test == "Again":
                 print("Again:", againBuffer)
                 test = againBuffer
@@ -571,6 +572,7 @@ def ActivationPhase():
                     for l in range(NumOfRobots):
                         if (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1]) == robots[l].position:
                             blocked = 1
+                            robotpushnum = l
                     if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge" and blocked == 0:
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
@@ -591,6 +593,7 @@ def ActivationPhase():
                     for l in range(NumOfRobots):
                         if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1) == robots[l].position:
                             blocked = 1
+                            robotpushnum = l
                     if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge" and blocked == 0:
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
@@ -611,6 +614,7 @@ def ActivationPhase():
                     for l in range(NumOfRobots):
                         if (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1]) == robots[l].position:
                             blocked = 1
+                            robotpushnum = l
                     if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge" and blocked == 0:
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
@@ -635,6 +639,7 @@ def ActivationPhase():
                         for l in range(NumOfRobots):
                             if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1) == robots[l].position:
                                 blocked = 1
+                                robotpushnum = l
                     #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
                             #print(robots[placementorder[j]].position)
@@ -658,6 +663,7 @@ def ActivationPhase():
                         for l in range(NumOfRobots):
                             if (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1]) == robots[l].position:
                                 blocked = 1
+                                robotpushnum = l
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
@@ -679,6 +685,7 @@ def ActivationPhase():
                         for l in range(NumOfRobots):
                             if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1) == robots[l].position:
                                 blocked = 1
+                                robotpushnum = l
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
@@ -700,6 +707,7 @@ def ActivationPhase():
                         for l in range(NumOfRobots):
                             if (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1]) == robots[l].position:
                                 blocked = 1
+                                robotpushnum = l
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
@@ -727,6 +735,7 @@ def ActivationPhase():
                                 #print(l)
                                 robotpushnum = l
                                 blocked = 1
+                                robotpushnum = l
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1)
@@ -749,6 +758,7 @@ def ActivationPhase():
                         for l in range(NumOfRobots):
                             if (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1]) == robots[l].position:
                                 blocked = 1
+                                robotpushnum = l
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
@@ -770,6 +780,7 @@ def ActivationPhase():
                         for l in range(NumOfRobots):
                             if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1) == robots[l].position:
                                 blocked = 1
+                                robotpushnum = l
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
@@ -791,6 +802,7 @@ def ActivationPhase():
                         for l in range(NumOfRobots):
                             if (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1]) == robots[l].position:
                                 blocked = 1
+                                robotpushnum = l
                         if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
                             #print(robots[placementorder[j]].position)
                             robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
@@ -827,6 +839,10 @@ def ActivationPhase():
                 print("UTurn")
             elif test == "Back":
                 if robots[placementorder[j]].rotation == 2:
+                    for l in range(NumOfRobots):
+                        if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] - 1) == robots[l].position:
+                            blocked = 1
+                            robotpushnum = l
                     #print(map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0)
                     if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side0 != "edge":
                         #print(robots[placementorder[j]].position)
@@ -845,6 +861,10 @@ def ActivationPhase():
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 3:
+                    for l in range(NumOfRobots):
+                        if (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1]) == robots[l].position:
+                            blocked = 1
+                            robotpushnum = l
                     if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side1 != "edge":
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0] + 1, robots[placementorder[j]].position[1])
@@ -862,6 +882,10 @@ def ActivationPhase():
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 0:
+                    for l in range(NumOfRobots):
+                        if (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1) == robots[l].position:
+                            blocked = 1
+                            robotpushnum = l
                     if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side2 != "edge":
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0], robots[placementorder[j]].position[1] + 1)
@@ -879,6 +903,10 @@ def ActivationPhase():
                     else:
                         print("wall or edge")
                 if robots[placementorder[j]].rotation == 1:
+                    for l in range(NumOfRobots):
+                            if (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1]) == robots[l].position:
+                                blocked = 1
+                                robotpushnum = l
                     if map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "wall" and map[robots[placementorder[j]].position[1]][robots[placementorder[j]].position[0]].side3 != "edge":
                         #print(robots[placementorder[j]].position)
                         robots[placementorder[j]].position = (robots[placementorder[j]].position[0] - 1, robots[placementorder[j]].position[1])
